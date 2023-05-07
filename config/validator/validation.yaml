@@ -1,0 +1,46 @@
+App\Entity\Company:
+    properties:
+        name:
+            -   NotNull: ~
+            -   Type: string
+        nip:
+            -   NotNull: ~
+            -   Type: string
+            -   Length:
+                    min: 10
+                    max: 10
+                    minMessage: 'Nieprawidłowa ilość liczb NIP-u'
+                    maxMessage: 'Nieprawidłowa ilość liczb NIP-u'
+        address:
+            -   NotNull: ~
+            -   Type: string
+        city:
+            -   NotNull: ~
+            -   Type: string
+        postalCode:
+            -   NotNull: ~
+            -   Type: string
+
+App\Entity\Employee:
+    properties:
+        firstName:
+            -   NotNull: ~
+            -   Type: string
+            -   Length:
+                    max: 30
+        lastName:
+            -   NotNull: ~
+            -   Type: string
+            -   Length:
+                    max: 40
+        address:
+            -   NotNull: ~
+            -   Type: string
+        city:
+            -   NotNull: ~
+            -   Type: string
+        postalCode:
+            -   NotNull: ~
+            -   Type: string
+            
+        
