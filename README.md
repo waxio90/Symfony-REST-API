@@ -1,46 +1,56 @@
-# Symfony Docker
+# Symfony Docker REST API
 
-A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework, with full [HTTP/2](https://symfony.com/doc/current/weblink.html), HTTP/3 and HTTPS support.
+## Wymagania systemowe:
 
-![CI](https://github.com/dunglas/symfony-docker/workflows/CI/badge.svg)
+    PHP 8.2
+    Symfony6
+    Baza danych (PostgreSQL)
 
-## Getting Started
+## Instalacja:
 
-1. If not already done, [install Docker Compose](https://docs.docker.com/compose/install/) (v2.10+)
-2. Run `docker compose build --pull --no-cache` to build fresh images
-3. Run `docker compose up` (the logs will be displayed in the current shell)
-4. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
-5. Run `docker compose down --remove-orphans` to stop the Docker containers.
+1. Sklonuj repozytorium kodu.
+2. Zainstaluj Docker Compose
+3. Uruchom `docker compose build --pull --no-cache`
+4. Uruchom `docker compose up -d`
 
-## Features
+## Endpointy:
 
-* Production, development and CI ready
-* [Installation of extra Docker Compose services](docs/extra-services.md) with Symfony Flex
-* Automatic HTTPS (in dev and in prod!)
-* HTTP/2, HTTP/3 and [Preload](https://symfony.com/doc/current/web_link.html) support
-* Built-in [Mercure](https://symfony.com/doc/current/mercure.html) hub
-* [Vulcain](https://vulcain.rocks) support
-* Native [XDebug](docs/xdebug.md) integration
-* Just 2 services (PHP FPM and Caddy server)
-* Super-readable configuration
+### Firma
 
-**Enjoy!**
+    GET /api/companies - pobierz listę firm
+    POST /api/companies - dodaj nową firmę
+    GET /api/companies/{id} - pobierz dane konkretnej firmy
+    PUT /api/companies/{id} - zaktualizuj dane konkretnej firmy
+    DELETE /api/companies/{id} - usuń konkretną firmę
 
-## Docs
+### Pracownicy
 
-1. [Build options](docs/build.md)
-2. [Using Symfony Docker with an existing project](docs/existing-project.md)
-3. [Support for extra services](docs/extra-services.md)
-4. [Deploying in production](docs/production.md)
-5. [Debugging with Xdebug](docs/xdebug.md)
-6. [TLS Certificates](docs/tls.md)
-7. [Using a Makefile](docs/makefile.md)
-8. [Troubleshooting](docs/troubleshooting.md)
+    GET /api/companies/{id}/employees - pobierz wszystkich pracowników danej firmy
+    POST /api/companies/{id}/employees - dodaj nowego pracownika dla danej firmy
+    GET /api/companies/{id}/employees/{employeeId} - pobierz dane konkretnego pracownika dla danej firmy
+    PUT /api/companies/{id}/employees/{employeeId} - zaktualizuj dane konkretnego pracownika dla danej firmy
+    DELETE /api/companies/{id}/employees/{employeeId} - usuń konkretnego pracownika dla danej firmy
 
-## License
+## Parametry
 
-Symfony Docker is available under the MIT License.
+Wszystkie dane są przekazywane w formacie JSON.
 
-## Credits
+### Przykładowe dane dla utworzenia nowej firmy:
 
-Created by [Kévin Dunglas](https://dunglas.fr), co-maintained by [Maxime Helias](https://twitter.com/maxhelias) and sponsored by [Les-Tilleuls.coop](https://les-tilleuls.coop).
+
+    {
+        "name": "Nazwa firmy",
+        "nip": "1234567890",
+        "address": "ul. Przykładowa 10",
+        "city": "Kraków",
+        "postalCode": "30-000"
+    }
+
+### Przykładowe dane dla utworzenia nowego pracownika:
+
+    {
+        "firstName": "Jan",
+        "lastName": "Kowalski",
+        "email": "jan.kowalski@example.com",
+        "phone": "+48123456789"
+    }

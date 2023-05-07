@@ -283,6 +283,15 @@
                 0 => '1.0|2.0|3.0',
             ),
         ),
+        'sensio/framework-extra-bundle' => array(
+            'pretty_version' => 'v6.2.10',
+            'version' => '6.2.10.0',
+            'reference' => '2f886f4b31f23c76496901acaedfedb6936ba61f',
+            'type' => 'symfony-bundle',
+            'install_path' => __DIR__ . '/../sensio/framework-extra-bundle',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'symfony/cache' => array(
             'pretty_version' => 'v6.2.10',
             'version' => '6.2.10.0',

@@ -1,46 +1,49 @@
 App\Entity\Company:
     properties:
         name:
-            -   NotNull: ~
+            -   NotBlank: ~
             -   Type: string
         nip:
-            -   NotNull: ~
+            -   NotBlank: ~
             -   Type: string
             -   Length:
                     min: 10
                     max: 10
-                    minMessage: 'Nieprawidłowa ilość liczb NIP-u'
-                    maxMessage: 'Nieprawidłowa ilość liczb NIP-u'
+            -   Regex:
+                    pattern: '/^[0-9]+$/i'
+                    htmlPattern: '[0-9]+'
         address:
-            -   NotNull: ~
+            -   NotBlank: ~
             -   Type: string
         city:
-            -   NotNull: ~
+            -   NotBlank: ~
             -   Type: string
         postalCode:
-            -   NotNull: ~
+            -   NotBlank: ~
             -   Type: string
+            -   Length:
+                    max: 30    
 
 App\Entity\Employee:
     properties:
         firstName:
-            -   NotNull: ~
+            -   NotBlank: ~
             -   Type: string
             -   Length:
                     max: 30
         lastName:
-            -   NotNull: ~
+            -   NotBlank: ~
             -   Type: string
             -   Length:
                     max: 40
-        address:
-            -   NotNull: ~
+        email:
+            -   NotBlank: ~
             -   Type: string
-        city:
-            -   NotNull: ~
+            -   Email:
+                    message: The email "{{ value }}" is not a valid email.    
+        phoneNumber:
             -   Type: string
-        postalCode:
-            -   NotNull: ~
-            -   Type: string
+            -   Length:
+                    max: 20
             
         

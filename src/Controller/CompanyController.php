@@ -7,6 +7,7 @@ use App\Repository\CompanyRepository;
 use App\Service\CompanyProvider;
 use App\Service\ValidateData;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,7 +28,7 @@ class CompanyController extends AbstractController
     {
     }
 
-    #[Route('/', name: 'list-companies', methods: ["GET"])]
+    #[Route('', name: 'list-companies', methods: ["GET"])]
     public function index(): JsonResponse
     {
         $companies = $this->companyRepository->findAll();
@@ -36,7 +37,8 @@ class CompanyController extends AbstractController
         return new JsonResponse($json, Response::HTTP_OK, [], true);
     }
 
-    #[Route('/{id}', name: 'show-company', methods: ["GET"])]
+    #[Route('{id}', name: 'show-company', methods: ["GET"])]
+    #[ParamConverter("company", class: "App\Entity\Company", options: ["id" => "id"])]
     public function show(Company $company): JsonResponse
     {
         $json = $this->serializer->serialize($company, 'json', ['groups' => 'api']);
@@ -45,7 +47,7 @@ class CompanyController extends AbstractController
     }
 
 
-    #[Route('/', name: 'create-company', methods: ["POST"])]
+    #[Route('', name: 'create-company', methods: ["POST"])]
     public function create(Request $request): JsonResponse
     {
         $company = $this->companyProvider->setDataCompany($request);
@@ -63,7 +65,8 @@ class CompanyController extends AbstractController
         return new JsonResponse($json, Response::HTTP_CREATED, [], true);
     }
 
-    #[Route('/{id}', name: 'update-company', methods: ["PUT"])]
+    #[Route('{id}', name: 'update-company', methods: ["PUT"])]
+    #[ParamConverter("company", class: "App\Entity\Company", options: ["id" => "id"])]
     public function update(Request $request, Company $company): JsonResponse
     {
         $company = $this->companyProvider->setDataCompany($request, $company);
@@ -80,7 +83,8 @@ class CompanyController extends AbstractController
         return new JsonResponse($json, Response::HTTP_OK, [], true);
     }
 
-    #[Route('/{id}', name: 'delete-company', methods: ["DELETE"])]
+    #[Route('{id}', name: 'delete-company', methods: ["DELETE"])]
+    #[ParamConverter("company", class: "App\Entity\Company", options: ["id" => "id"])]
     public function delete(Company $company): JsonResponse
     {
         $this->entityManager->remove($company);

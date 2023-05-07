@@ -7,7 +7,7 @@ use App\Repository\EmployeeRepository;
 use App\Service\EmployeeProvider;
 use App\Service\ValidateData;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\Entity;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/api/companies/{id}/employees')]
+#[ParamConverter("company", class: "App\Entity\Company", options: ["id" => "id"])]
 class EmployeeController extends AbstractController
 {
     public function __construct(
@@ -28,7 +29,7 @@ class EmployeeController extends AbstractController
     {
     }
 
-    #[Route('/', name: 'employees-company', methods: ["GET"])]
+    #[Route('', name: 'employees-company', methods: ["GET"])]
     public function index(Company $company): JsonResponse
     {
         $employees = $company->getEmployees();
@@ -37,8 +38,8 @@ class EmployeeController extends AbstractController
         return new JsonResponse($json, Response::HTTP_OK, [], true);
     }
 
-    #[Route('/{employeeId}', name: 'show-employee', methods: ["GET"])]
-    public function showEmployee(Company $company, string $employeeId): JsonResponse
+    #[Route('{employeeId}', name: 'show-employee', methods: ["GET"])]
+    public function show(Company $company, string $employeeId): JsonResponse
     {
         $employee = $this->employeeRepository->find(intval($employeeId));
         if (!$employee || $employee->getCompany() !== $company) {
@@ -50,7 +51,7 @@ class EmployeeController extends AbstractController
         return new JsonResponse($json, Response::HTTP_OK, [], true);
     }
 
-    #[Route('/', name: 'create-emloyee', methods: ["POST"])]
+    #[Route('', name: 'create-emloyee', methods: ["POST"])]
     public function create(Request $request, Company $company): JsonResponse
     {
         $employee = $this->employeeProvider->setDataEmployee($request);
@@ -69,7 +70,7 @@ class EmployeeController extends AbstractController
         return new JsonResponse($json, Response::HTTP_CREATED, [], true);
     }
 
-    #[Route('/{employeeId}', name: 'update-employee', methods: ["PUT"])]
+    #[Route('{employeeId}', name: 'update-employee', methods: ["PUT"])]
     public function update(Request $request, Company $company, string $employeeId): JsonResponse
     {
         $employee = $this->employeeRepository->find(intval($employeeId));
@@ -91,7 +92,7 @@ class EmployeeController extends AbstractController
         return new JsonResponse($json, Response::HTTP_OK, [], true);
     }
 
-    #[Route('/{employeeId}', name: 'delete-employee', methods: ["DELETE"])]
+    #[Route('{employeeId}', name: 'delete-employee', methods: ["DELETE"])]
     public function delete(Company $company, string $employeeId): JsonResponse
     {
         $employee = $this->employeeRepository->find(intval($employeeId));
